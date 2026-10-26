@@ -36,48 +36,48 @@ The original specification also describes a terminal client, automated bots, eva
 
 #### Project skeleton
 
-- [ ] Create the project directory structure (`game.py`, `word_manager.py`, `server.py`, `static/`, `words/`, `tests/`).
-- [ ] Add `requirements.txt`.
-- [ ] Add `words/easy.txt`.
-- [ ] Add `words/medium.txt`.
-- [ ] Add `words/hard.txt`.
+- [x] Create the project directory structure (`game.py`, `word_manager.py`, `server.py`, `static/`, `words/`, `tests/`).
+- [x] Add `requirements.txt`.
+- [x] Add `words/easy.txt`.
+- [x] Add `words/medium.txt`.
+- [x] Add `words/hard.txt`.
 
 #### Word management
 
-- [ ] Create a word-loading module (`word_manager.py`).
-- [ ] Load the Easy, Medium, and Hard word lists.
-- [ ] Validate that loaded words contain only alphabetic characters.
-- [ ] Normalize words to lowercase and remove accidental duplicates.
-- [ ] Support random word selection by difficulty.
-- [ ] Return a clear error for an invalid difficulty.
+- [x] Create a word-loading module (`word_manager.py`).
+- [x] Load the Easy, Medium, and Hard word lists.
+- [x] Validate that loaded words contain only alphabetic characters.
+- [x] Normalize words to lowercase and remove accidental duplicates.
+- [x] Support random word selection by difficulty.
+- [x] Return a clear error for an invalid difficulty.
 
 #### Game engine
 
-- [ ] Create `game.py` with a `HangmanGame` class.
-- [ ] Store the hidden word internally.
-- [ ] Track the difficulty level.
-- [ ] Validate guesses: exactly one alphabetic letter, case-insensitive.
-- [ ] Track all guessed letters.
-- [ ] Track correct and incorrect letters.
-- [ ] Track the maximum (6) and remaining incorrect guesses.
-- [ ] Detect and reject duplicate guesses without changing game state.
-- [ ] Generate the current word pattern (e.g. `_ e _ _ e`).
-- [ ] Detect wins.
-- [ ] Detect losses.
-- [ ] Implement status values `playing`, `won`, and `lost`.
-- [ ] Prevent further guesses after a game ends.
-- [ ] Implement a method that returns a client-safe game-state dictionary.
-- [ ] Reveal the answer only after the game ends.
-- [ ] Keep the engine free of any Flask or browser dependencies.
+- [x] Create `game.py` with a `HangmanGame` class.
+- [x] Store the hidden word internally.
+- [x] Track the difficulty level.
+- [x] Validate guesses: exactly one alphabetic letter, case-insensitive.
+- [x] Track all guessed letters.
+- [x] Track correct and incorrect letters.
+- [x] Track the maximum (6) and remaining incorrect guesses.
+- [x] Detect and reject duplicate guesses without changing game state.
+- [x] Generate the current word pattern (e.g. `_ e _ _ e`).
+- [x] Detect wins.
+- [x] Detect losses.
+- [x] Implement status values `playing`, `won`, and `lost`.
+- [x] Prevent further guesses after a game ends.
+- [x] Implement a method that returns a client-safe game-state dictionary.
+- [x] Reveal the answer only after the game ends.
+- [x] Keep the engine free of any Flask or browser dependencies.
 
 #### Tests
 
-- [ ] Unit tests for word loading, validation, deduplication, and selection by difficulty.
-- [ ] Unit tests for invalid difficulty.
-- [ ] Unit tests for correct guesses, incorrect guesses, invalid guesses, and duplicate guesses.
-- [ ] Unit tests for win and loss paths.
-- [ ] Unit tests confirming guesses are rejected after the game ends.
-- [ ] Unit tests confirming the state dictionary omits the word while `playing`.
+- [x] Unit tests for word loading, validation, deduplication, and selection by difficulty.
+- [x] Unit tests for invalid difficulty.
+- [x] Unit tests for correct guesses, incorrect guesses, invalid guesses, and duplicate guesses.
+- [x] Unit tests for win and loss paths.
+- [x] Unit tests confirming guesses are rejected after the game ends.
+- [x] Unit tests confirming the state dictionary omits the word while `playing`.
 
 ### Completion Criteria
 
