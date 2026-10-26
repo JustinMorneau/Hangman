@@ -136,6 +136,7 @@
       return;
     }
     const shown = game.pattern.split(" ");
+    els.pattern.style.setProperty("--letters", shown.length);  // sizes the slots to fit
     shown.forEach((char, index) => {
       const slot = document.createElement("span");
       slot.className = "slot";

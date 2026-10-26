@@ -149,3 +149,11 @@ def test_random_selection_uses_whole_list(tmp_path):
     manager = WordManager(tmp_path, rng=random.Random(0))
     picks = {manager.random_word("easy") for _ in range(200)}
     assert picks == {"ant", "bee", "cat"}
+
+
+def test_real_words_fit_the_tested_layout():
+    """The browser layout is tested with a 12-letter word (tests/conftest.py).
+    A longer word would need a new layout test first."""
+    manager = WordManager()
+    longest = max(len(w) for d in DIFFICULTIES for w in manager.get_words(d))
+    assert longest <= 12

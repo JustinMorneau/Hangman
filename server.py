@@ -30,6 +30,7 @@ from word_manager import InvalidDifficultyError, WordManager, normalize_difficul
 
 DEFAULT_DIFFICULTY = "medium"
 MAX_STORED_GAMES = 10_000  # oldest games are dropped beyond this, so memory stays bounded
+MAX_REQUEST_BYTES = 16 * 1024  # real requests are ~30 bytes; larger bodies get HTTP 413
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
@@ -83,6 +84,7 @@ def read_json_object():
 def create_app(word_manager: WordManager | None = None) -> Flask:
     """Build the Flask app. Tests pass their own WordManager."""
     app = Flask(__name__, static_folder=str(STATIC_DIR), static_url_path="/static")
+    app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BYTES
     words = word_manager or WordManager()
     store = GameStore()
     app.config["GAME_STORE"] = store
@@ -143,6 +145,12 @@ def create_app(word_manager: WordManager | None = None) -> Flask:
             return jsonify(game_response(game_id, game, correct=correct)), 200
 
     # ----- JSON errors for everything else -------------------------------
+
+    @app.errorhandler(413)
+    def too_large(error):
+        return error_response(
+            f"Request body is too large (limit {MAX_REQUEST_BYTES} bytes).", 413
+        )
 
     @app.errorhandler(HTTPException)
     def http_error(error: HTTPException):

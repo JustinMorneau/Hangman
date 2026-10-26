@@ -281,3 +281,25 @@ def test_index_page_is_served(client):
     response = client.get("/")
     assert response.status_code == 200
     assert b"Hangman" in response.data
+
+
+# ----- regression: request size limit (Phase 4, bug #1) ----------------------
+
+def test_oversized_create_request_returns_413(client):
+    """Bodies are capped at 16 KB so a public server can't be fed huge requests."""
+    padding = "x" * 20_000
+    response = client.post("/api/games", json={"difficulty": "easy", "pad": padding})
+    assert response.status_code == 413
+    assert "too large" in response.get_json()["error"]
+
+
+def test_oversized_guess_request_returns_413_and_changes_nothing(client):
+    game_id = new_game(client)["game_id"]
+    response = guess(client, game_id, "a" * 20_000)
+    assert response.status_code == 413
+    assert client.get(f"/api/games/{game_id}").get_json()["guessed_letters"] == []
+
+
+def test_normal_sized_requests_still_work(client):
+    response = client.post("/api/games", json={"difficulty": "easy", "note": "x" * 1000})
+    assert response.status_code == 201

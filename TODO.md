@@ -166,21 +166,21 @@ No game logic or hidden word is stored in browser-side JavaScript; the browser o
 
 ### Tasks
 
-- [ ] Review and complete unit tests for the game engine and word manager.
-- [ ] Review and complete REST API tests.
-- [ ] Test starting games at all three difficulty levels.
-- [ ] Test correct and incorrect guesses.
-- [ ] Test repeated and invalid guesses.
-- [ ] Test winning and losing games.
-- [ ] Test starting a new game after completing one.
-- [ ] Test invalid API requests (bad JSON, missing fields, bad difficulty, unknown IDs).
-- [ ] Test that the hidden word is not exposed during active gameplay.
-- [ ] Add an end-to-end automated test that plays a complete game through the API.
-- [ ] Manually test the browser client: each difficulty, on-screen and physical keyboard input, drawing updates, win/loss messages, and new-game flow.
-- [ ] Check the browser's network tab to confirm no response contains the word while `playing`.
-- [ ] Test the browser layout at desktop and mobile sizes.
-- [ ] Record manual browser test results (checklist) in the README or a `TESTING.md` file.
-- [ ] Fix any bugs found and add a regression test for each fix where practical.
+- [x] Review and complete unit tests for the game engine and word manager.
+- [x] Review and complete REST API tests.
+- [x] Test starting games at all three difficulty levels.
+- [x] Test correct and incorrect guesses.
+- [x] Test repeated and invalid guesses.
+- [x] Test winning and losing games.
+- [x] Test starting a new game after completing one.
+- [x] Test invalid API requests (bad JSON, missing fields, bad difficulty, unknown IDs).
+- [x] Test that the hidden word is not exposed during active gameplay.
+- [x] Add an end-to-end automated test that plays a complete game through the API.
+- [x] Manually test the browser client: each difficulty, on-screen and physical keyboard input, drawing updates, win/loss messages, and new-game flow.
+- [x] Check the browser's network tab to confirm no response contains the word while `playing`.
+- [x] Test the browser layout at desktop and mobile sizes.
+- [x] Record manual browser test results (checklist) in the README or a `TESTING.md` file.
+- [x] Fix any bugs found and add a regression test for each fix where practical.
 
 ### Completion Criteria
 

@@ -6,38 +6,15 @@ Requires Playwright (optional, not needed by the app itself):
     python -m playwright install chromium
 
 If Playwright or its browser is not installed, these tests are skipped.
-Each difficulty uses one known word so games are predictable:
-easy = apple, medium = garden, hard = rhythm.
+The live server (see conftest.py) uses one known word per difficulty:
+easy = apple, medium = garden, hard = extravaganza.
 """
-
-import threading
 
 import pytest
 
 sync_api = pytest.importorskip("playwright.sync_api")
 
-import logging  # noqa: E402
-
-from werkzeug.serving import make_server  # noqa: E402
-
-from server import create_app  # noqa: E402
-from word_manager import WordManager  # noqa: E402
-
-
-@pytest.fixture(scope="module")
-def live_server(tmp_path_factory):
-    words = tmp_path_factory.mktemp("words")
-    (words / "easy.txt").write_text("apple\n", encoding="utf-8")
-    (words / "medium.txt").write_text("garden\n", encoding="utf-8")
-    (words / "hard.txt").write_text("rhythm\n", encoding="utf-8")
-
-    app = create_app(WordManager(words))
-    logging.getLogger("werkzeug").setLevel(logging.ERROR)  # hide per-request log lines
-    server = make_server("127.0.0.1", 0, app)  # port 0 = any free port
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    yield {"url": f"http://127.0.0.1:{server.server_port}", "app": app}
-    server.shutdown()
+from conftest import KNOWN_WORDS  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -71,7 +48,7 @@ def start(page, difficulty):
     page.click("#new-game")
     page.wait_for_function(
         "n => document.querySelectorAll('#pattern .slot').length === n",
-        arg={"easy": 5, "medium": 6, "hard": 6}[difficulty],
+        arg=len(KNOWN_WORDS[difficulty]),
     )
     page.wait_for_function("!document.querySelector('.key').disabled")
 
@@ -112,7 +89,7 @@ def test_page_starts_a_medium_game(page):
     assert drawn_parts(page) == 0
 
 
-@pytest.mark.parametrize("difficulty, length", [("easy", 5), ("medium", 6), ("hard", 6)])
+@pytest.mark.parametrize("difficulty, length", [("easy", 5), ("medium", 6), ("hard", 12)])
 def test_each_difficulty_starts_a_game(page, difficulty, length):
     start(page, difficulty)
     assert len(slots(page)) == length
@@ -191,7 +168,7 @@ def test_new_game_after_finishing_without_reload(page):
         click_key(page, letter)
     start(page, "hard")
     assert page.evaluate("window.__noReload") is True
-    assert slots(page) == ["\u00a0"] * 6
+    assert slots(page) == ["\u00a0"] * 12
     assert page.inner_text("#message") == ""
     assert page.inner_text("#guessed") == "none yet"
     assert drawn_parts(page) == 0
@@ -214,3 +191,36 @@ def test_lost_game_on_server_shows_helpful_message(page, live_server):
         "document.getElementById('message').textContent.includes('no longer')"
     )
     assert page.locator(".key:not([disabled])").count() == 0
+
+
+# ----- layout at phone, tablet, and desktop sizes (Phase 4) ------------------
+
+@pytest.mark.parametrize("width, height", [(320, 640), (375, 812), (768, 1024), (1280, 800)])
+def test_layout_fits_screen(browser, live_server, width, height):
+    """Regression test: long words used to wrap onto two lines and the
+    keyboard overflowed sideways on 320px phones."""
+    page = browser.new_page(viewport={"width": width, "height": height})
+    try:
+        page.goto(live_server["url"])
+        page.wait_for_selector("#pattern .slot")
+        start(page, "hard")  # 12-letter word, the worst case
+        for letter in "xtr":
+            type_key(page, letter)
+
+        overflow = page.evaluate(
+            "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+        )
+        assert overflow <= 0, f"page scrolls sideways by {overflow}px"
+
+        rows = page.evaluate(
+            "new Set([...document.querySelectorAll('#pattern .slot')]"
+            ".map(s => Math.round(s.getBoundingClientRect().top))).size"
+        )
+        assert rows == 1, "the word wrapped onto more than one line"
+
+        key = page.locator(".key").first.bounding_box()
+        assert key["height"] >= 40, "keys are too small to tap"
+        assert page.locator("#drawing").is_visible()
+        assert page.locator("#new-game").is_visible()
+    finally:
+        page.close()
