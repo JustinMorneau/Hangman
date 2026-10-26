@@ -194,21 +194,21 @@ The major user flows and failure cases are covered by automated or documented ma
 
 ### Tasks
 
-- [ ] Add `gunicorn` to `requirements.txt`.
-- [ ] Ensure `debug=True` is used only for local development, never in production.
-- [ ] Verify the app runs locally under Gunicorn: `gunicorn --bind 127.0.0.1:5000 --workers 1 server:app`.
-- [ ] Use a single worker so all requests share the same in-memory game store.
-- [ ] Add a `render.yaml` Blueprint (or equivalent service settings) with:
+- [x] Add `gunicorn` to `requirements.txt`.
+- [x] Ensure `debug=True` is used only for local development, never in production.
+- [x] Verify the app runs locally under Gunicorn: `gunicorn --bind 127.0.0.1:5000 --workers 1 server:app`.
+- [x] Use a single worker so all requests share the same in-memory game store.
+- [x] Add a `render.yaml` Blueprint (or equivalent service settings) with:
   - Build command: `pip install -r requirements.txt`
   - Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 1 server:app`
-- [ ] Make sure the browser client uses relative API paths (e.g. `/api/games`) so it works on the public host.
-- [ ] Push the project to GitHub.
-- [ ] Create the Render web service from the GitHub repository.
-- [ ] Confirm the app is reachable at a public HTTPS URL.
-- [ ] Confirm the deployed site displays the Hangman web interface.
-- [ ] Confirm the required REST API endpoints work on the deployed URL (e.g. with `curl`).
-- [ ] Play a complete game in the browser on the deployed URL.
-- [ ] Document the deployment URL, deployment steps, and known limitations (free-tier cold starts, in-memory games reset on restart) in the README.
+- [x] Make sure the browser client uses relative API paths (e.g. `/api/games`) so it works on the public host.
+- [x] Push the project to GitHub.
+- [x] Create the Render web service from the GitHub repository.
+- [x] Confirm the app is reachable at a public HTTPS URL.
+- [x] Confirm the deployed site displays the Hangman web interface.
+- [x] Confirm the required REST API endpoints work on the deployed URL (e.g. with `curl`).
+- [x] Play a complete game in the browser on the deployed URL.
+- [x] Document the deployment URL, deployment steps, and known limitations (free-tier cold starts, in-memory games reset on restart) in the README.
 
 ### Completion Criteria
 

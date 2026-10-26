@@ -4,7 +4,7 @@ A networked Hangman game: a Python/Flask server that holds all game logic,
 and a browser client that talks to it through a JSON REST API. The hidden
 word stays on the server until a game ends.
 
-**Live app:** https://YOUR-APP.onrender.com  <!-- replace after deploying -->
+**Live app:** https://hangman-fo4n.onrender.com
 
 > Full documentation (API reference, examples, project structure) is added
 > in Phase 6. See `TESTING.md` for how the project is tested.
@@ -48,7 +48,7 @@ service, configured by `render.yaml` in the repository root.
    **Deploy Blueprint**. Render reads `render.yaml` and creates the service.
 4. When the deploy log shows the service is live, open the
    `https://….onrender.com` URL shown on the service page.
-5. Verify it: `python smoke_test.py https://….onrender.com`
+5. Verify it: `python smoke_test.py https://hangman-fo4n.onrender.com`
 
 ### Why these settings
 

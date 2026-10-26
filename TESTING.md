@@ -36,13 +36,16 @@ any URL, using only the standard library:
 
 ```bash
 python smoke_test.py http://127.0.0.1:5000          # local server
-python smoke_test.py https://YOUR-APP.onrender.com  # deployed app
+python smoke_test.py https://hangman-fo4n.onrender.com  # deployed app
 ```
 
 It prints PASS or FAIL for each check and exits with code 0 only if all
 pass. For a public URL it also checks that HTTPS is used.
 
-Deployed URL result: ______
+Deployed URL result (2026-10-26, https://hangman-fo4n.onrender.com):
+**all checks passed**: HTTPS in use; page, CSS, and JavaScript served; one
+complete game per difficulty with the word hidden until each game ended;
+correct 400, 404, and 409 responses; separate games stay independent.
 
 ## Manual browser checklist
 
