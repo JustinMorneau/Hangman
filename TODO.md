@@ -132,27 +132,27 @@ The browser client is not required for this phase.
 
 ### Tasks
 
-- [ ] Create `static/index.html`.
-- [ ] Create `static/style.css`.
-- [ ] Create `static/app.js`.
-- [ ] Add a difficulty selector (Easy, Medium, Hard).
-- [ ] Add a New Game button.
-- [ ] Display the current word pattern.
-- [ ] Display previously guessed letters.
-- [ ] Display incorrect letters.
-- [ ] Display remaining incorrect guesses.
-- [ ] Add an on-screen alphabet keyboard.
-- [ ] Support guessing letters with the physical keyboard.
-- [ ] Disable already-guessed letters.
-- [ ] Use `fetch()` for all communication with the REST API.
-- [ ] Update the display from the server's response after every guess.
-- [ ] Draw the Hangman figure (SVG or HTML elements).
-- [ ] Update the drawing as incorrect guesses accumulate.
-- [ ] Display win and loss messages, including the revealed word after the game ends.
-- [ ] Disable guessing after the game ends.
-- [ ] Start another game without reloading the page.
-- [ ] Display server and network errors gracefully.
-- [ ] Make the interface usable on common desktop and mobile browser sizes.
+- [x] Create `static/index.html`.
+- [x] Create `static/style.css`.
+- [x] Create `static/app.js`.
+- [x] Add a difficulty selector (Easy, Medium, Hard).
+- [x] Add a New Game button.
+- [x] Display the current word pattern.
+- [x] Display previously guessed letters.
+- [x] Display incorrect letters.
+- [x] Display remaining incorrect guesses.
+- [x] Add an on-screen alphabet keyboard.
+- [x] Support guessing letters with the physical keyboard.
+- [x] Disable already-guessed letters.
+- [x] Use `fetch()` for all communication with the REST API.
+- [x] Update the display from the server's response after every guess.
+- [x] Draw the Hangman figure (SVG or HTML elements).
+- [x] Update the drawing as incorrect guesses accumulate.
+- [x] Display win and loss messages, including the revealed word after the game ends.
+- [x] Disable guessing after the game ends.
+- [x] Start another game without reloading the page.
+- [x] Display server and network errors gracefully.
+- [x] Make the interface usable on common desktop and mobile browser sizes.
 
 ### Completion Criteria
 
