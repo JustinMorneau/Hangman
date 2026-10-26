@@ -1,0 +1,378 @@
+/* Hangman: a sheet of graph paper in light mode, a chalkboard in dark mode. */
+
+:root {
+  --paper: #F8FAF6;
+  --grid: #DCE6EE;
+  --margin: #E7A7A1;
+  --graphite: #2B3036;
+  --graphite-soft: #5E6670;
+  --ink: #2456A8;
+  --miss: #C23B32;
+  --key-bg: #FFFFFF;
+  --key-border: #B9C6D2;
+  --focus: #2456A8;
+
+  --hand: "Patrick Hand", "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  --text: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --cell: 24px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1E2A27;
+    --grid: #26352F;
+    --margin: #4E3B38;
+    --graphite: #ECEFE9;
+    --graphite-soft: #A9B5AE;
+    --ink: #8FC1FF;
+    --miss: #FF8A80;
+    --key-bg: #24332E;
+    --key-border: #4A5F57;
+    --focus: #8FC1FF;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  color: var(--graphite);
+  font-family: var(--text);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.sheet {
+  position: relative;
+  max-width: 920px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px 24px 48px 56px;
+}
+
+/* The red margin line of a notebook page. */
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36px;
+  width: 2px;
+  background: var(--margin);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ----- header and controls --------------------------------------------- */
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 3rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.difficulty {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--graphite);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.difficulty label {
+  position: relative;
+  padding: 6px 14px;
+  cursor: pointer;
+  background: var(--key-bg);
+}
+
+.difficulty label + label {
+  border-left: 2px solid var(--graphite);
+}
+
+.difficulty input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.difficulty label:has(input:checked) {
+  background: var(--graphite);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.difficulty label:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: -5px;
+}
+
+.new-game {
+  padding: 8px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.new-game:hover {
+  filter: brightness(1.1);
+}
+
+/* ----- board: drawing + word ------------------------------------------- */
+
+.board {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  align-items: center;
+  gap: 24px 40px;
+}
+
+.drawing {
+  width: 100%;
+  height: auto;
+  stroke: var(--graphite);
+  stroke-width: 4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.figure .part {
+  stroke: var(--miss);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;   /* hidden until drawn */
+}
+
+.figure .part.drawn {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 450ms ease-out;
+}
+
+.pattern {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 12px;
+  min-height: 3.5rem;
+  font-family: var(--hand);
+  font-size: 2.75rem;
+  line-height: 1.2;
+}
+
+.slot {
+  display: inline-block;
+  width: 1.1em;
+  border-bottom: 3px solid var(--graphite);
+  text-align: center;
+  color: var(--ink);
+}
+
+.slot.missed {
+  color: var(--miss);   /* letters revealed after a loss */
+}
+
+.remaining {
+  margin: 0 0 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.remaining.low {
+  color: var(--miss);
+}
+
+.tally {
+  margin: 0 0 12px;
+}
+
+.tally div {
+  display: flex;
+  gap: 8px;
+}
+
+.tally dt {
+  min-width: 5.5em;
+  color: var(--graphite-soft);
+}
+
+.tally dd {
+  margin: 0;
+  letter-spacing: 0.08em;
+}
+
+.tally .misses {
+  color: var(--miss);
+}
+
+.message {
+  min-height: 1.5em;
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.message.won {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.message.lost,
+.message.error {
+  color: var(--miss);
+  font-weight: 700;
+}
+
+/* ----- keyboard -------------------------------------------------------- */
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 6px;
+  margin-top: 28px;
+}
+
+.key {
+  aspect-ratio: 1;
+  min-height: 40px;
+  padding: 0;
+  border: 2px solid var(--key-border);
+  border-radius: 6px;
+  background: var(--key-bg);
+  color: var(--graphite);
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.key:hover:not(:disabled) {
+  border-color: var(--graphite);
+}
+
+.key:disabled {
+  cursor: default;
+}
+
+.key.hit {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.key.miss {
+  border-color: var(--miss);
+  color: var(--miss);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.key:disabled:not(.hit):not(.miss) {
+  opacity: 0.45;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 16px 0 0;
+  color: var(--graphite-soft);
+  font-size: 0.9375rem;
+}
+
+/* ----- small screens --------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .sheet {
+    padding: 20px 14px 32px 34px;
+  }
+
+  .sheet::before {
+    left: 20px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .drawing {
+    max-width: 180px;
+  }
+
+  .pattern {
+    justify-content: center;
+    font-size: 2.25rem;
+    gap: 8px;
+  }
+
+  .tally div {
+    justify-content: center;
+  }
+
+  .tally dt {
+    min-width: 0;
+  }
+
+  .keyboard {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure .part.drawn {
+    transition: none;
+  }
+}
