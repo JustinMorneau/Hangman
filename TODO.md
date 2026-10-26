@@ -220,14 +220,14 @@ A user can open the public HTTPS URL and play a complete game in the browser wit
 
 ### Tasks
 
-- [ ] Create or update `README.md`.
-- [ ] Document project scope and any deviations from the specification.
-- [ ] Document installation and how to run the server locally.
-- [ ] Document how to use the browser client.
-- [ ] Document the REST API with example requests and responses.
-- [ ] Document how to run the tests.
-- [ ] Document the deployed URL and deployment steps.
-- [ ] Verify that a fresh clone works from the documented instructions.
+- [x] Create or update `README.md`.
+- [x] Document project scope and any deviations from the specification.
+- [x] Document installation and how to run the server locally.
+- [x] Document how to use the browser client.
+- [x] Document the REST API with example requests and responses.
+- [x] Document how to run the tests.
+- [x] Document the deployed URL and deployment steps.
+- [x] Verify that a fresh clone works from the documented instructions.
 
 ### Completion Criteria
 
