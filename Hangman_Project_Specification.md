@@ -395,3 +395,43 @@ Level 5
 -   Replay system
 -   Bot-vs-bot competitions
 -   Public API documentation
+
+------------------------------------------------------------------------
+
+# Implementation Notes (this project)
+
+*Added during implementation. The sections above are the original
+specification and are unchanged.*
+
+## Scope
+
+This project implements the **Game Engine**, **word management**, the
+**REST Server** (Flask), and the **Browser Client**, plus automated tests
+and deployment to Render (https://hangman-fo4n.onrender.com).
+
+The following parts of this specification are **out of scope** and not
+implemented: Human Terminal Client, Student Bot Client and bot examples,
+Evaluation Mode, Official Scoring, Leaderboard, Logging and Replay, and
+Future Extensions.
+
+## Deviations
+
+-   **Duplicate guesses** are rejected (not ignored) with HTTP 409 and
+    `{"error": ...}`. Game state is unchanged.
+-   **Guesses after a game ends** are rejected with HTTP 409.
+-   **Responses** contain the full game state: `game_id`, `difficulty`,
+    `pattern`, `word_length`, `guessed_letters`, `correct_letters`,
+    `incorrect_letters`, `remaining_guesses`, `max_incorrect`, and
+    `status`. Guess responses add `correct` (true or false). `word` is
+    added only when `status` is `won` or `lost`.
+-   **Create Game:** `difficulty` is optional (default `medium`) and
+    case-insensitive.
+-   **Errors** always use the body `{"error": "message"}` with status
+    400 (bad request), 404 (unknown game), 405 (wrong method), 409
+    (duplicate guess or finished game), or 413 (body over 16 KB).
+-   **Project structure:** word loading is in `word_manager.py`; tests are
+    in `tests/`; `terminal_client.py` and `bot_examples/` are not present.
+    Deployment adds `render.yaml`, `.python-version`, `smoke_test.py`, and
+    `requirements-dev.txt`.
+
+See `README.md` for the full API reference with examples.

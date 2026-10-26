@@ -13,7 +13,7 @@ python -m playwright install chromium           # browser used by the browser te
 python -m pytest -v
 ```
 
-Expected result: **163 passed**. Without Playwright installed, the 18 browser
+Expected result: **171 passed**. Without Playwright installed, the 18 browser
 tests are reported as skipped and everything else still runs.
 
 | File | Tests | What it covers |
@@ -24,6 +24,7 @@ tests are reported as skipped and everything else still runs.
 | `tests/test_client.py` | 7 | The page and its files are served; the JavaScript calls the API and contains no word lists or guess-checking logic |
 | `tests/test_end_to_end.py` | 6 | 120 complete games against the real word lists with the rules checked after every guess; a full game over real HTTP; simultaneous requests to one game |
 | `tests/test_deployment.py` | 7 | Render configuration: free plan, one Gunicorn worker on `$PORT`, Flask and Gunicorn in `requirements.txt` without test tools, pinned Python version, debug off, relative API URLs; runs `smoke_test.py` against a live server |
+| `tests/test_docs.py` | 8 | `README.md` matches reality: example responses have the real fields, every response field and error message is documented, every listed file exists, the live URL is present |
 | `tests/test_browser.py` | 18 | Real Chromium against a live server: every difficulty, clicking and typing letters, drawing updates, win, loss, new game without reload, word hidden on the page, layout at 320, 375, 768, and 1280 px wide |
 
 `tests/conftest.py` holds the shared live-server fixture. Its known words
