@@ -1,0 +1,4 @@
+# Everything for development and testing (not installed on Render).
+-r requirements.txt
+pytest>=8.0
+playwright>=1.40

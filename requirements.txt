@@ -1,2 +1,5 @@
-flask>=3.0
-pytest>=8.0
+# Packages the app needs to run (installed by Render).
+flask>=3.0,<4
+# Production web server used on Render. Gunicorn does not run on Windows,
+# so it is skipped there; use `python server.py` locally instead.
+gunicorn>=23.0; sys_platform != "win32"

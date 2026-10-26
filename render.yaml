@@ -1,0 +1,15 @@
+# Render Blueprint: one free Python web service running the Hangman app.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: hangman
+    runtime: python
+    plan: free                      # required: Render defaults to the paid "starter" plan if omitted
+    buildCommand: pip install -r requirements.txt
+    # ONE worker: games live in that worker's memory, so a second worker
+    # would not know about games the first one created (random 404s).
+    # Threads let that one worker answer several requests at once; the
+    # game store's lock keeps each game consistent (see test_end_to_end.py).
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 server:app
+    healthCheckPath: /
+    autoDeploy: true                # redeploy on every push to main
