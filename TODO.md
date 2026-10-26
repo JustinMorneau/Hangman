@@ -93,32 +93,32 @@ All core rules are covered by unit tests.
 
 ### Tasks
 
-- [ ] Create `server.py`.
-- [ ] Configure Flask.
-- [ ] Add in-memory storage for active games.
-- [ ] Generate unique game IDs.
-- [ ] Implement `POST /api/games` (create a new game).
-- [ ] Implement `GET /api/games/{game_id}` (retrieve current game state).
-- [ ] Implement `POST /api/games/{game_id}/guess` (submit a letter guess).
-- [ ] Accept and return JSON only; return JSON for errors as well.
-- [ ] Validate the difficulty input.
-- [ ] Validate the guess input (missing body, non-JSON body, missing `letter`, multiple letters, non-letters).
-- [ ] Decide and document how duplicate guesses are reported (rejected with an error status, state unchanged).
-- [ ] Reject guesses on finished games with an appropriate status code.
-- [ ] Return appropriate HTTP status codes (`201`, `200`, `400`, `404`, `409` as applicable).
-- [ ] Handle unknown game IDs with `404`.
-- [ ] Maintain separate state for each game.
-- [ ] Ensure the hidden word is never included in responses while `status` is `playing`.
-- [ ] Serve the browser client (`static/index.html`) from the Flask app at `/`.
+- [x] Create `server.py`.
+- [x] Configure Flask.
+- [x] Add in-memory storage for active games.
+- [x] Generate unique game IDs.
+- [x] Implement `POST /api/games` (create a new game).
+- [x] Implement `GET /api/games/{game_id}` (retrieve current game state).
+- [x] Implement `POST /api/games/{game_id}/guess` (submit a letter guess).
+- [x] Accept and return JSON only; return JSON for errors as well.
+- [x] Validate the difficulty input.
+- [x] Validate the guess input (missing body, non-JSON body, missing `letter`, multiple letters, non-letters).
+- [x] Decide and document how duplicate guesses are reported (rejected with an error status, state unchanged).
+- [x] Reject guesses on finished games with an appropriate status code.
+- [x] Return appropriate HTTP status codes (`201`, `200`, `400`, `404`, `409` as applicable).
+- [x] Handle unknown game IDs with `404`.
+- [x] Maintain separate state for each game.
+- [x] Ensure the hidden word is never included in responses while `status` is `playing`.
+- [x] Serve the browser client (`static/index.html`) from the Flask app at `/`.
 
 ### Tests
 
-- [ ] API tests for creating games at all three difficulty levels.
-- [ ] API tests for correct, incorrect, duplicate, and invalid guesses.
-- [ ] API tests for win and loss paths through the API.
-- [ ] API tests for unknown game IDs and malformed requests.
-- [ ] API tests confirming two concurrent games keep independent state.
-- [ ] API tests confirming no response contains the word while `playing`.
+- [x] API tests for creating games at all three difficulty levels.
+- [x] API tests for correct, incorrect, duplicate, and invalid guesses.
+- [x] API tests for win and loss paths through the API.
+- [x] API tests for unknown game IDs and malformed requests.
+- [x] API tests confirming two concurrent games keep independent state.
+- [x] API tests confirming no response contains the word while `playing`.
 
 ### Completion Criteria
 
